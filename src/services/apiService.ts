@@ -554,6 +554,7 @@ class ApiService {
   }
 
   async getCourseById(courseId: string): Promise<Course> {
+    this.validateCourseId(courseId);
     const response = await fetch(`${BASE_URL}/courses/${courseId}`, {
       headers: this.getAuthHeaders(),
     });
@@ -596,6 +597,7 @@ class ApiService {
   }
 
   async deleteCourse(courseId: string): Promise<void> {
+    this.validateCourseId(courseId);
     const response = await fetch(`${BASE_URL}/admin/courses/${courseId}`, {
       method: 'DELETE',
       headers: this.getAuthHeaders(),
@@ -607,6 +609,7 @@ class ApiService {
   }
 
   async featureCourse(courseId: string): Promise<Course> {
+    this.validateCourseId(courseId);
     const response = await fetch(`${BASE_URL}/admin/courses/${courseId}/feature`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
@@ -621,6 +624,7 @@ class ApiService {
   }
 
   async unfeatureCourse(courseId: string): Promise<Course> {
+    this.validateCourseId(courseId);
     const response = await fetch(`${BASE_URL}/admin/courses/${courseId}/unfeature`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
@@ -635,6 +639,7 @@ class ApiService {
   }
 
   async activateCourse(courseId: string): Promise<Course> {
+    this.validateCourseId(courseId);
     const response = await fetch(`${BASE_URL}/admin/courses/${courseId}/activate`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
@@ -649,6 +654,7 @@ class ApiService {
   }
 
   async deactivateCourse(courseId: string): Promise<Course> {
+    this.validateCourseId(courseId);
     const response = await fetch(`${BASE_URL}/admin/courses/${courseId}/deactivate`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
