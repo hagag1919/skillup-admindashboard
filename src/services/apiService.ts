@@ -13,7 +13,7 @@ import type {
   EnrollmentAnalytics,
 } from '../types';
 
-const BASE_URL = 'https://skillup-zvp9.onrender.com/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://skillup-zvp9.onrender.com/api';
 
 // Global authentication error handler
 const handleAuthError = () => {
@@ -200,9 +200,15 @@ class ApiService {
         throw new Error(error);
       }
 
+      console.log('Attempting login to:', `${BASE_URL}/auth/login`);
+
       const response = await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        credentials: 'include',
         body: JSON.stringify(credentials),
       });
       
@@ -242,9 +248,17 @@ class ApiService {
       
       return result;
     } catch (error) {
-      // Re-throw the error after logging
+      // Enhanced error handling for CORS and network issues
       if (error instanceof Error) {
         console.error('Login failed:', error.message);
+        
+        // Check for CORS or network errors
+        if (error.message.includes('Failed to fetch') || 
+            error.message.includes('NetworkError') ||
+            error.message.includes('CORS') ||
+            error.name === 'TypeError') {
+          throw new Error('Unable to connect to server. This may be due to CORS configuration or network issues. Please try again later.');
+        }
       }
       throw error;
     }
