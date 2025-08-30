@@ -6,11 +6,13 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
-    port: 5173
+    port: 5173,
+    allowedHosts: ['skillup-admindashboard.onrender.com', 'localhost']
   },
   preview: {
     host: true,
-    port: process.env.PORT ? parseInt(process.env.PORT) : 4173
+    port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
+    allowedHosts: ['skillup-admindashboard.onrender.com', 'localhost']
   },
   build: {
     rollupOptions: {
